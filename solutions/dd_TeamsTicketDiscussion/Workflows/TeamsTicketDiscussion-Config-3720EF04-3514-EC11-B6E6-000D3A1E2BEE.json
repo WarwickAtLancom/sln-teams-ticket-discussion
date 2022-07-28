@@ -1,0 +1,185 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDataverse"
+        },
+        "api": { "name": "shared_commondataserviceforapps" }
+      },
+      "shared_teams_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionTeams"
+        },
+        "api": { "name": "shared_teams" }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": { "defaultValue": {}, "type": "Object" },
+        "$authentication": { "defaultValue": {}, "type": "SecureObject" }
+      },
+      "triggers": {
+        "manual": {
+          "type": "Request",
+          "kind": "Button",
+          "inputs": {
+            "schema": { "type": "object", "properties": {}, "required": [] }
+          }
+        }
+      },
+      "actions": {
+        "Store_Config": {
+          "actions": {
+            "Condition": {
+              "actions": {
+                "Add_a_new_row": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps",
+                      "operationId": "CreateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "dd_teamsticketdiscussionconfigs",
+                      "item/dd_configid": "0",
+                      "item/dd_deskdirectordomain": "@outputs('DeskDirector_Domain')",
+                      "item/dd_teamschannelid": "@body('Parse_Config')?['channelId']",
+                      "item/dd_teamspostas": "@body('Parse_Config')?['postAs']",
+                      "item/dd_teamspostin": "@body('Parse_Config')?['postIn']",
+                      "item/dd_teamsteamid": "@body('Parse_Config')?['groupId']"
+                    },
+                    "authentication": {
+                      "type": "Raw",
+                      "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+                    }
+                  }
+                }
+              },
+              "runAfter": { "List_rows": ["Succeeded"] },
+              "else": {
+                "actions": {
+                  "Update_a_row": {
+                    "runAfter": {},
+                    "type": "OpenApiConnection",
+                    "inputs": {
+                      "host": {
+                        "connectionName": "shared_commondataserviceforapps",
+                        "operationId": "UpdateRecord",
+                        "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                      },
+                      "parameters": {
+                        "entityName": "dd_teamsticketdiscussionconfigs",
+                        "recordId": "@outputs('List_rows')?['body/value'][0]['dd_teamsticketdiscussionconfigid']",
+                        "item/dd_configid": "0",
+                        "item/dd_deskdirectordomain": "@outputs('DeskDirector_Domain')",
+                        "item/dd_teamschannelid": "@body('Parse_Config')?['channelId']",
+                        "item/dd_teamspostas": "@body('Parse_Config')?['postAs']",
+                        "item/dd_teamspostin": "@body('Parse_Config')?['postIn']",
+                        "item/dd_teamsteamid": "@body('Parse_Config')?['groupId']"
+                      },
+                      "authentication": {
+                        "type": "Raw",
+                        "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+                      }
+                    }
+                  }
+                }
+              },
+              "expression": {
+                "equals": ["@length(outputs('List_rows')?['body/value'])", 0]
+              },
+              "type": "If"
+            },
+            "Parse_Config": {
+              "runAfter": {},
+              "type": "ParseJson",
+              "inputs": {
+                "content": {
+                  "postAs": "@actions('Post_message_in_a_chat_or_channel')?['inputs/parameters']['poster']",
+                  "postIn": "@actions('Post_message_in_a_chat_or_channel')?['inputs/parameters']['location']",
+                  "channelId": "@actions('Post_message_in_a_chat_or_channel')?['inputs/parameters']['body/recipient/channelId']",
+                  "groupId": "@actions('Post_message_in_a_chat_or_channel')?['inputs/parameters']['body/recipient/groupId']"
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "postAs": { "type": "string" },
+                    "postIn": { "type": "string" },
+                    "channelId": { "type": "string" },
+                    "groupId": { "type": "string" }
+                  }
+                }
+              }
+            },
+            "List_rows": {
+              "runAfter": { "Parse_Config": ["Succeeded"] },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "dd_teamsticketdiscussionconfigs",
+                  "$filter": "dd_configid eq '0'"
+                },
+                "authentication": {
+                  "type": "Raw",
+                  "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+                }
+              }
+            }
+          },
+          "runAfter": { "Things_for_you_to_configure": ["Succeeded"] },
+          "type": "Scope"
+        },
+        "Things_for_you_to_configure": {
+          "actions": {
+            "DeskDirector_Domain": {
+              "runAfter": {},
+              "type": "Compose",
+              "inputs": "subdomain.deskdirector.com",
+              "description": "subdomain.deskdirector.com"
+            },
+            "Post_message_in_a_chat_or_channel": {
+              "runAfter": { "DeskDirector_Domain": ["Succeeded"] },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_teams_1",
+                  "operationId": "PostMessageToConversation",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+                },
+                "parameters": {
+                  "poster": "Flow bot",
+                  "location": "Channel",
+                  "body/recipient/groupId": "e18c2fc7-6848-4bf9-bf51-feaa4869d211",
+                  "body/recipient/channelId": "19:OhIA1aWBeS9URflvUl3AenwqvG_NcibrKmRUq1A_NdI1@thread.tacv2",
+                  "body/messageBody": "<p>Testing Teams connection.</p>"
+                },
+                "authentication": {
+                  "type": "Raw",
+                  "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+                }
+              },
+              "description": "This solution only supports posting in a channel. The \"Post in\" input must be \"Channel\""
+            }
+          },
+          "runAfter": {},
+          "type": "Scope",
+          "description": "Configure these actions to get up and running"
+        }
+      },
+      "outputs": {}
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

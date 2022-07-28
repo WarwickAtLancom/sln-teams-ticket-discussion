@@ -1,13 +1,6 @@
 {
   "properties": {
     "connectionReferences": {
-      "shared_deskdirector_1": {
-        "runtimeSource": "embedded",
-        "connection": {
-          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDeskDirector"
-        },
-        "api": { "name": "shared_deskdirector" }
-      },
       "shared_teams_1": {
         "runtimeSource": "embedded",
         "connection": {
@@ -21,6 +14,13 @@
           "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDataverse"
         },
         "api": { "name": "shared_commondataserviceforapps" }
+      },
+      "shared_deskdirector_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDeskDirector"
+        },
+        "api": { "name": "shared_deskdirector" }
       }
     },
     "definition": {
@@ -48,11 +48,11 @@
         }
       },
       "actions": {
-        "Config": {
-          "runAfter": {},
+        "DeskDirector_Domain": {
+          "runAfter": { "Get_Config": ["Succeeded"] },
           "type": "ParseJson",
           "inputs": {
-            "content": { "domain": "subdomain.deskdirector.com" },
+            "content": { "domain": "@body('Parse_Config')?['ddDomain']" },
             "schema": {
               "type": "object",
               "properties": { "domain": { "type": "string" } }
@@ -69,11 +69,15 @@
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
             },
             "parameters": {
-              "poster": "Flow bot",
-              "location": "Channel",
-              "body/recipient/groupId": "e18c2fc7-6848-4bf9-bf51-feaa4869d211",
-              "body/recipient/channelId": "19:OhIA1aWBeS9URflvUl3AenwqvG_NcibrKmRUq1A_NdI1@thread.tacv2",
-              "body/messageBody": "<p>@{triggerOutputs()?['body/ticket/name']}<br>\nContact: @{triggerOutputs()?['body/ticket/contact/name']} &lt;@{triggerOutputs()?['body/ticket/contact/emailAddress']}&gt;<br>\n@{outputs('Ticket_Hyperlink')}</p>"
+              "poster": "@body('Parse_Config')?['postAs']",
+              "location": "@body('Parse_Config')?['postIn']",
+              "body": {
+                "recipient": {
+                  "groupId": "@body('Parse_Config')?['groupId']",
+                  "channelId": "@body('Parse_Config')?['channelId']"
+                },
+                "messageBody": "<span style='font-size:20px'><b>@{triggerOutputs()?['body/ticket/name']}</b></span><br><p>Contact: @{triggerOutputs()?['body/ticket/contact/name']} (@{triggerOutputs()?['body/ticket/contact/emailAddress']})<br>@{outputs('Ticket_Hyperlink')}</p>"
+              }
             },
             "authentication": "@parameters('$authentication')"
           }
@@ -96,9 +100,9 @@
           }
         },
         "Ticket_Hyperlink": {
-          "runAfter": { "Config": ["Succeeded"] },
+          "runAfter": { "DeskDirector_Domain": ["Succeeded"] },
           "type": "Compose",
-          "inputs": "<a href=\"https://@{body('Config')?['domain']}/tech/tickets/@{triggerOutputs()?['body/ticket/id']}/details\">View in Tech</a>"
+          "inputs": "<a href=\"https://@{body('DeskDirector_Domain')?['domain']}/tech/tickets/@{triggerOutputs()?['body/ticket/id']}/details\">View in Tech</a>"
         },
         "Update_a_ticket": {
           "runAfter": { "Add_a_new_row": ["Succeeded"] },
@@ -116,6 +120,70 @@
             },
             "authentication": "@parameters('$authentication')"
           }
+        },
+        "Get_Config": {
+          "actions": {
+            "List_Config": {
+              "runAfter": {},
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "ListRecords",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "dd_teamsticketdiscussionconfigs",
+                  "$select": "dd_configid, dd_deskdirectordomain, dd_teamspostin, dd_teamspostas, dd_teamsteamid, dd_teamschannelid",
+                  "$filter": "dd_configid eq '0'"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Only_one_config_entry": {
+              "actions": {
+                "Parse_Config": {
+                  "runAfter": {},
+                  "type": "ParseJson",
+                  "inputs": {
+                    "content": {
+                      "ddDomain": "@outputs('List_Config')?['body/value'][0]['dd_deskdirectordomain']",
+                      "postAs": "@outputs('List_Config')?['body/value'][0]['dd_teamspostas']",
+                      "postIn": "@outputs('List_Config')?['body/value'][0]['dd_teamspostin']",
+                      "channelId": "@outputs('List_Config')?['body/value'][0]['dd_teamschannelid']",
+                      "groupId": "@outputs('List_Config')?['body/value'][0]['dd_teamsteamid']"
+                    },
+                    "schema": {
+                      "type": "object",
+                      "properties": {
+                        "ddDomain": { "type": "string" },
+                        "postAs": { "type": "string" },
+                        "postIn": { "type": "string" },
+                        "channelId": { "type": "string" },
+                        "groupId": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              },
+              "runAfter": { "List_Config": ["Succeeded"] },
+              "else": {
+                "actions": {
+                  "Terminate_-_Conflicting_Config": {
+                    "runAfter": {},
+                    "type": "Terminate",
+                    "inputs": { "runStatus": "Cancelled" }
+                  }
+                }
+              },
+              "expression": {
+                "equals": ["@length(outputs('List_Config')?['body/value'])", 1]
+              },
+              "type": "If"
+            }
+          },
+          "runAfter": {},
+          "type": "Scope"
         }
       },
       "outputs": {}
