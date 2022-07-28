@@ -1,0 +1,125 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_deskdirector_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDeskDirector"
+        },
+        "api": { "name": "shared_deskdirector" }
+      },
+      "shared_teams_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionTeams"
+        },
+        "api": { "name": "shared_teams" }
+      },
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDataverse"
+        },
+        "api": { "name": "shared_commondataserviceforapps" }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": { "defaultValue": {}, "type": "Object" },
+        "$authentication": { "defaultValue": {}, "type": "SecureObject" }
+      },
+      "triggers": {
+        "When_a_ticket_is_created_or_updated": {
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_deskdirector_1",
+              "operationId": "CreateTicketWorkflow",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_deskdirector"
+            },
+            "parameters": {
+              "type": "ticket.new",
+              "req/description": "Teams Ticket Discussion - Ticket Created"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Config": {
+          "runAfter": {},
+          "type": "ParseJson",
+          "inputs": {
+            "content": { "domain": "subdomain.deskdirector.com" },
+            "schema": {
+              "type": "object",
+              "properties": { "domain": { "type": "string" } }
+            }
+          }
+        },
+        "Post_message_in_a_chat_or_channel": {
+          "runAfter": { "Ticket_Hyperlink": ["Succeeded"] },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_teams_1",
+              "operationId": "PostMessageToConversation",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+            },
+            "parameters": {
+              "poster": "Flow bot",
+              "location": "Channel",
+              "body/recipient/groupId": "e18c2fc7-6848-4bf9-bf51-feaa4869d211",
+              "body/recipient/channelId": "19:OhIA1aWBeS9URflvUl3AenwqvG_NcibrKmRUq1A_NdI1@thread.tacv2",
+              "body/messageBody": "<p>@{triggerOutputs()?['body/ticket/name']}<br>\nContact: @{triggerOutputs()?['body/ticket/contact/name']} &lt;@{triggerOutputs()?['body/ticket/contact/emailAddress']}&gt;<br>\n@{outputs('Ticket_Hyperlink')}</p>"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Add_a_new_row": {
+          "runAfter": { "Post_message_in_a_chat_or_channel": ["Succeeded"] },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "CreateRecord",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "dd_teamsticketdiscussionstates",
+              "item/dd_teamsmessageid": "@outputs('Post_message_in_a_chat_or_channel')?['body/id']",
+              "item/dd_ticketid": "@triggerOutputs()?['body/ticket/id']"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Ticket_Hyperlink": {
+          "runAfter": { "Config": ["Succeeded"] },
+          "type": "Compose",
+          "inputs": "<a href=\"https://@{body('Config')?['domain']}/tech/tickets/@{triggerOutputs()?['body/ticket/id']}/details\">View in Tech</a>"
+        },
+        "Update_a_ticket": {
+          "runAfter": { "Add_a_new_row": ["Succeeded"] },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_deskdirector_1",
+              "operationId": "UpdateTicket",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_deskdirector"
+            },
+            "parameters": {
+              "ticketId": "@triggerOutputs()?['body/ticket/id']",
+              "req/noteContent": "[A Teams discussion was started here](@{outputs('Post_message_in_a_chat_or_channel')?['body/messageLink']})",
+              "req/noteIsInternal": true
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "outputs": {}
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}

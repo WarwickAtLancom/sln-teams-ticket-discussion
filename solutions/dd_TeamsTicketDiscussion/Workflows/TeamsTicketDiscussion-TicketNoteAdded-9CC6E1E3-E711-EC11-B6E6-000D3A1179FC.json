@@ -1,0 +1,110 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_deskdirector_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDeskDirector"
+        },
+        "api": { "name": "shared_deskdirector" }
+      },
+      "shared_commondataserviceforapps": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDataverse"
+        },
+        "api": { "name": "shared_commondataserviceforapps" }
+      },
+      "shared_teams_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionTeams"
+        },
+        "api": { "name": "shared_teams" }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": { "defaultValue": {}, "type": "Object" },
+        "$authentication": { "defaultValue": {}, "type": "SecureObject" }
+      },
+      "triggers": {
+        "When_a_ticket_is_created_or_updated": {
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_deskdirector_1",
+              "operationId": "CreateTicketWorkflow",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_deskdirector"
+            },
+            "parameters": {
+              "type": "ticket.notes.added",
+              "req/description": "Teams Ticket Discussion - Ticket Note Added"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "List_rows": {
+          "runAfter": {},
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "dd_teamsticketdiscussionstates",
+              "$select": "dd_ticketid, dd_teamsmessageid",
+              "$filter": "dd_ticketid eq '@{triggerOutputs()?['body/ticket/id']}'"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Only_one_ticket_state_entry": {
+          "actions": {},
+          "runAfter": { "List_rows": ["Succeeded"] },
+          "else": {
+            "actions": {
+              "Terminate": {
+                "runAfter": {},
+                "type": "Terminate",
+                "inputs": { "runStatus": "Cancelled" }
+              }
+            }
+          },
+          "expression": {
+            "equals": ["@length(outputs('List_rows')?['body/value'])", 1]
+          },
+          "type": "If"
+        },
+        "Reply_with_a_message_in_a_channel": {
+          "runAfter": { "Only_one_ticket_state_entry": ["Succeeded"] },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_teams_1",
+              "operationId": "ReplyWithMessageToConversation",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+            },
+            "parameters": {
+              "poster": "Flow bot",
+              "location": "Channel",
+              "body/parentMessageId": "@outputs('List_rows')?['body/value'][0]['dd_teamsmessageid']",
+              "body/recipient/groupId": "e18c2fc7-6848-4bf9-bf51-feaa4869d211",
+              "body/recipient/channelId": "19:OhIA1aWBeS9URflvUl3AenwqvG_NcibrKmRUq1A_NdI1@thread.tacv2",
+              "body/messageBody": "<p>@{triggerOutputs()?['body/note/user/name']} has posted @{if(triggerOutputs()?['body/note/isInternal'],'an internal note', 'a note')}:<br>\n<br>\n@{triggerOutputs()?['body/note/content']}</p>"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "outputs": {}
+    }
+  },
+  "schemaVersion": "1.0.0.0"
+}
