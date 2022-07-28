@@ -1,12 +1,12 @@
 {
   "properties": {
     "connectionReferences": {
-      "shared_teams_1": {
+      "shared_deskdirector_1": {
         "runtimeSource": "embedded",
         "connection": {
-          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionTeams"
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDeskDirector"
         },
-        "api": { "name": "shared_teams" }
+        "api": { "name": "shared_deskdirector" }
       },
       "shared_commondataserviceforapps": {
         "runtimeSource": "embedded",
@@ -15,12 +15,12 @@
         },
         "api": { "name": "shared_commondataserviceforapps" }
       },
-      "shared_deskdirector_1": {
+      "shared_teams_1": {
         "runtimeSource": "embedded",
         "connection": {
-          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDeskDirector"
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionTeams"
         },
-        "api": { "name": "shared_deskdirector" }
+        "api": { "name": "shared_teams" }
       }
     },
     "definition": {
@@ -67,32 +67,6 @@
             }
           }
         },
-        "Post_message_in_a_chat_or_channel": {
-          "runAfter": { "Ticket_Hyperlink": ["Succeeded"] },
-          "metadata": {
-            "operationMetadataId": "90fae727-eb15-44db-87e4-070b9fe4677c"
-          },
-          "type": "OpenApiConnection",
-          "inputs": {
-            "host": {
-              "connectionName": "shared_teams_1",
-              "operationId": "PostMessageToConversation",
-              "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
-            },
-            "parameters": {
-              "poster": "@body('Parse_Config')?['postAs']",
-              "location": "@body('Parse_Config')?['postIn']",
-              "body": {
-                "recipient": {
-                  "groupId": "@body('Parse_Config')?['groupId']",
-                  "channelId": "@body('Parse_Config')?['channelId']"
-                },
-                "messageBody": "<span style='font-size:20px'><b>@{triggerOutputs()?['body/ticket/name']}</b></span><br><p>Contact: @{triggerOutputs()?['body/ticket/contact/name']} (@{triggerOutputs()?['body/ticket/contact/emailAddress']})<br>@{outputs('Ticket_Hyperlink')}</p>"
-              }
-            },
-            "authentication": "@parameters('$authentication')"
-          }
-        },
         "Ticket_Hyperlink": {
           "runAfter": { "DeskDirector_Domain": ["Succeeded"] },
           "metadata": {
@@ -137,7 +111,7 @@
                 },
                 "parameters": {
                   "entityName": "dd_teamsticketdiscussionconfigs",
-                  "$select": "dd_configid, dd_deskdirectordomain, dd_teamspostin, dd_teamspostas, dd_teamsteamid, dd_teamschannelid",
+                  "$select": "dd_configid, dd_deskdirectordomain, dd_teamspostin, dd_teamspostas, dd_teamsteamid, dd_teamschannelid, dd_allownewthreads",
                   "$filter": "dd_configid eq '0'"
                 },
                 "authentication": "@parameters('$authentication')"
@@ -157,7 +131,8 @@
                       "postAs": "@outputs('List_Config')?['body/value'][0]['dd_teamspostas']",
                       "postIn": "@outputs('List_Config')?['body/value'][0]['dd_teamspostin']",
                       "channelId": "@outputs('List_Config')?['body/value'][0]['dd_teamschannelid']",
-                      "groupId": "@outputs('List_Config')?['body/value'][0]['dd_teamsteamid']"
+                      "groupId": "@outputs('List_Config')?['body/value'][0]['dd_teamsteamid']",
+                      "allowNewThreads": "@outputs('List_Config')?['body/value'][0]['dd_allownewthreads']"
                     },
                     "schema": {
                       "type": "object",
@@ -166,7 +141,8 @@
                         "postAs": { "type": "string" },
                         "postIn": { "type": "string" },
                         "channelId": { "type": "string" },
-                        "groupId": { "type": "string" }
+                        "groupId": { "type": "string" },
+                        "allowNewThreads": { "type": "number" }
                       }
                     }
                   }
@@ -201,7 +177,7 @@
           "type": "Scope"
         },
         "List_rows": {
-          "runAfter": { "Post_message_in_a_chat_or_channel": ["Succeeded"] },
+          "runAfter": { "Ticket_Hyperlink": ["Succeeded"] },
           "metadata": {
             "operationMetadataId": "350df07c-e8ff-420f-9e99-ce304b8856aa"
           },
@@ -218,7 +194,8 @@
               "$filter": "dd_ticketid eq '@{triggerOutputs()?['body/ticket/id']}'"
             },
             "authentication": "@parameters('$authentication')"
-          }
+          },
+          "description": "List rows in ticket states table. To see if ticket already has a past thread."
         },
         "Add_or_update_row": {
           "actions": {
@@ -243,7 +220,7 @@
               }
             }
           },
-          "runAfter": { "List_rows": ["Succeeded"] },
+          "runAfter": { "New_Thread_or_Reply": ["Succeeded"] },
           "else": {
             "actions": {
               "Update_a_row": {
@@ -275,7 +252,118 @@
           "metadata": {
             "operationMetadataId": "e6145e99-331b-46e7-9ba7-61a8c8e649b3"
           },
-          "type": "If"
+          "type": "If",
+          "description": "Need to add/update ticket state table row to record new Teams thread ID"
+        },
+        "New_Thread_or_Reply": {
+          "actions": {
+            "Reply_with_a_message_in_a_channel": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "3a1fab14-b6b9-4aea-ba2a-e54e270f5ecc"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_teams_1",
+                  "operationId": "ReplyWithMessageToConversation",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+                },
+                "parameters": {
+                  "poster": "@body('Parse_Config')?['postAs']",
+                  "location": "@body('Parse_Config')?['postIn']",
+                  "body": {
+                    "parentMessageId": "@outputs('List_rows')?['body/value'][0]['dd_teamsmessageid']",
+                    "recipient": {
+                      "groupId": "@body('Parse_Config')?['groupId']",
+                      "channelId": "@body('Parse_Config')?['channelId']"
+                    },
+                    "messageBody": "<p>A Teams discussion thread for ticket @{triggerOutputs()?['body/ticket/id']} already exists here.</p>"
+                  }
+                },
+                "authentication": "@parameters('$authentication')"
+              },
+              "description": "Reply to existing thread to bring it to the front of channel"
+            },
+            "Update_a_ticket_-_existing_thread": {
+              "runAfter": {
+                "Reply_with_a_message_in_a_channel": ["Succeeded"]
+              },
+              "metadata": {
+                "operationMetadataId": "3e639ef6-0474-40b4-a1c4-310115a5ceba"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_deskdirector_1",
+                  "operationId": "UpdateTicket",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_deskdirector"
+                },
+                "parameters": {
+                  "ticketId": "@triggerOutputs()?['body/ticket/id']",
+                  "req/noteContent": "[A Teams discussion thread already exists here](@{outputs('Reply_with_a_message_in_a_channel')?['body/messageLink']})",
+                  "req/noteIsInternal": true
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            },
+            "Terminate": {
+              "runAfter": {
+                "Update_a_ticket_-_existing_thread": ["Succeeded"]
+              },
+              "metadata": {
+                "operationMetadataId": "cd44e120-e066-45b2-9cec-f89bc5c5a742"
+              },
+              "type": "Terminate",
+              "inputs": { "runStatus": "Succeeded" },
+              "description": "Don't need to update ticket state table row"
+            }
+          },
+          "runAfter": { "List_rows": ["Succeeded"] },
+          "else": {
+            "actions": {
+              "Post_message_in_a_chat_or_channel": {
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "90fae727-eb15-44db-87e4-070b9fe4677c"
+                },
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_teams_1",
+                    "operationId": "PostMessageToConversation",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_teams"
+                  },
+                  "parameters": {
+                    "poster": "@body('Parse_Config')?['postAs']",
+                    "location": "@body('Parse_Config')?['postIn']",
+                    "body": {
+                      "recipient": {
+                        "groupId": "@body('Parse_Config')?['groupId']",
+                        "channelId": "@body('Parse_Config')?['channelId']"
+                      },
+                      "messageBody": "<span style='font-size:20px'><b>#@{triggerOutputs()?['body/ticket/id']} - @{triggerOutputs()?['body/ticket/name']}</b></span><br><br><p>Ticket Contact: @{triggerOutputs()?['body/ticket/contact/name']} (@{triggerOutputs()?['body/ticket/contact/emailAddress']})<br>@{outputs('Ticket_Hyperlink')}</p>"
+                    }
+                  },
+                  "authentication": "@parameters('$authentication')"
+                },
+                "description": "New thread"
+              }
+            }
+          },
+          "expression": {
+            "and": [
+              {
+                "greater": ["@length(outputs('List_rows')?['body/value'])", 0]
+              },
+              { "equals": ["@body('Parse_Config')?['allowNewThreads']", 0] }
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "60370e8b-d024-45e1-a314-709a08ea9bcd"
+          },
+          "type": "If",
+          "description": "Reply if exists in table and not allowed new thread. Else new thread."
         }
       },
       "outputs": {}

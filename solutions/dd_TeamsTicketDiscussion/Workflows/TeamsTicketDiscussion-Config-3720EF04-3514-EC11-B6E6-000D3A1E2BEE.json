@@ -14,6 +14,13 @@
           "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionTeams"
         },
         "api": { "name": "shared_teams" }
+      },
+      "shared_deskdirector_1": {
+        "runtimeSource": "invoker",
+        "connection": {
+          "connectionReferenceLogicalName": "dd_TeamsTicketDiscussionDeskDirector"
+        },
+        "api": { "name": "shared_deskdirector" }
       }
     },
     "definition": {
@@ -54,8 +61,9 @@
                     },
                     "parameters": {
                       "entityName": "dd_teamsticketdiscussionconfigs",
+                      "item/dd_allownewthreads": "@int(body('Config')?['allowNewThreads'])",
                       "item/dd_configid": "0",
-                      "item/dd_deskdirectordomain": "@outputs('DeskDirector_Domain')",
+                      "item/dd_deskdirectordomain": "@body('Config')?['domain']",
                       "item/dd_teamschannelid": "@body('Parse_Config')?['channelId']",
                       "item/dd_teamspostas": "@body('Parse_Config')?['postAs']",
                       "item/dd_teamspostin": "@body('Parse_Config')?['postIn']",
@@ -86,8 +94,9 @@
                       "parameters": {
                         "entityName": "dd_teamsticketdiscussionconfigs",
                         "recordId": "@outputs('List_rows')?['body/value'][0]['dd_teamsticketdiscussionconfigid']",
+                        "item/dd_allownewthreads": "@int(body('Config')?['allowNewThreads'])",
                         "item/dd_configid": "0",
-                        "item/dd_deskdirectordomain": "@outputs('DeskDirector_Domain')",
+                        "item/dd_deskdirectordomain": "@body('Config')?['domain']",
                         "item/dd_teamschannelid": "@body('Parse_Config')?['channelId']",
                         "item/dd_teamspostas": "@body('Parse_Config')?['postAs']",
                         "item/dd_teamspostin": "@body('Parse_Config')?['postIn']",
@@ -156,7 +165,7 @@
               }
             }
           },
-          "runAfter": { "Things_for_you_to_configure": ["Succeeded"] },
+          "runAfter": { "Test_Connections": ["Succeeded"] },
           "metadata": {
             "operationMetadataId": "342f6bbe-6f20-4d34-bbf1-0c2472450dca"
           },
@@ -164,17 +173,8 @@
         },
         "Things_for_you_to_configure": {
           "actions": {
-            "DeskDirector_Domain": {
-              "runAfter": {},
-              "metadata": {
-                "operationMetadataId": "9340fdbb-e2b4-452b-a945-c5d90cbd9f66"
-              },
-              "type": "Compose",
-              "inputs": "subdomain.deskdirector.com",
-              "description": "subdomain.deskdirector.com"
-            },
             "Post_message_in_a_chat_or_channel": {
-              "runAfter": { "DeskDirector_Domain": ["Succeeded"] },
+              "runAfter": { "Config": ["Succeeded"] },
               "metadata": {
                 "operationMetadataId": "c426d23a-30f9-4b38-bdbb-2403c5fa3e3b"
               },
@@ -190,7 +190,7 @@
                   "location": "Channel",
                   "body/recipient/groupId": "e18c2fc7-6848-4bf9-bf51-feaa4869d211",
                   "body/recipient/channelId": "19:OhIA1aWBeS9URflvUl3AenwqvG_NcibrKmRUq1A_NdI1@thread.tacv2",
-                  "body/messageBody": "<p>Testing Teams connection.</p>"
+                  "body/messageBody": "<p>Testing Teams connection for <strong>Teams Ticket Discussion Solution</strong>.</p>"
                 },
                 "authentication": {
                   "type": "Raw",
@@ -198,6 +198,27 @@
                 }
               },
               "description": "This solution only supports posting in a channel. The \"Post in\" input must be \"Channel\""
+            },
+            "Config": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "2fc6ac82-b897-4dfc-a40b-6461e58730cc"
+              },
+              "type": "ParseJson",
+              "inputs": {
+                "content": {
+                  "domain": "subdomain.deskdirector.com",
+                  "allowNewThreads": false
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "domain": { "type": "string" },
+                    "allowNewThreads": { "type": "boolean" }
+                  }
+                }
+              },
+              "description": "Domain in the form of subdomain.deskdirector.com. AllowNewThreads: allow new threads or reuse existing if a ticket already has one."
             }
           },
           "runAfter": {},
@@ -206,6 +227,35 @@
           },
           "type": "Scope",
           "description": "Configure these actions to get up and running"
+        },
+        "Test_Connections": {
+          "actions": {
+            "Find_companies": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "8c4a1420-3c52-4154-af59-29bedab3ea00"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_deskdirector_1",
+                  "operationId": "FindCompanies",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_deskdirector"
+                },
+                "parameters": { "req/skip": 0, "req/take": 1 },
+                "authentication": {
+                  "type": "Raw",
+                  "value": "@json(decodeBase64(triggerOutputs().headers['X-MS-APIM-Tokens']))['$ConnectionKey']"
+                }
+              },
+              "description": "Just to test your DeskDirector connection"
+            }
+          },
+          "runAfter": { "Things_for_you_to_configure": ["Succeeded"] },
+          "metadata": {
+            "operationMetadataId": "f9238ecf-8cfb-4365-b78c-1b10f815b736"
+          },
+          "type": "Scope"
         }
       },
       "outputs": {}
