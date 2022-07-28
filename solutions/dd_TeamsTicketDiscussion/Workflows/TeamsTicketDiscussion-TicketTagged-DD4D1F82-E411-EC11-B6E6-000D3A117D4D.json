@@ -32,6 +32,9 @@
       },
       "triggers": {
         "When_a_ticket_is_created_or_updated": {
+          "metadata": {
+            "operationMetadataId": "c9e75403-3fcd-40fd-9bc5-532384d49edd"
+          },
           "type": "OpenApiConnectionWebhook",
           "inputs": {
             "host": {
@@ -40,16 +43,21 @@
               "apiId": "/providers/Microsoft.PowerApps/apis/shared_deskdirector"
             },
             "parameters": {
-              "type": "ticket.new",
-              "req/description": "Teams Ticket Discussion - Ticket Created"
+              "type": "ticket.tags.updated",
+              "req/description": "Teams Ticket Discussion - Ticket Tagged",
+              "req/advancedFilters/newTags": ["teams"]
             },
             "authentication": "@parameters('$authentication')"
-          }
+          },
+          "description": "Ticket is tagged with 'teams'"
         }
       },
       "actions": {
         "DeskDirector_Domain": {
           "runAfter": { "Get_Config": ["Succeeded"] },
+          "metadata": {
+            "operationMetadataId": "64d4c8e9-8650-4194-afe2-58653550a5ef"
+          },
           "type": "ParseJson",
           "inputs": {
             "content": { "domain": "@body('Parse_Config')?['ddDomain']" },
@@ -61,6 +69,9 @@
         },
         "Post_message_in_a_chat_or_channel": {
           "runAfter": { "Ticket_Hyperlink": ["Succeeded"] },
+          "metadata": {
+            "operationMetadataId": "90fae727-eb15-44db-87e4-070b9fe4677c"
+          },
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
@@ -82,30 +93,19 @@
             "authentication": "@parameters('$authentication')"
           }
         },
-        "Add_a_new_row": {
-          "runAfter": { "Post_message_in_a_chat_or_channel": ["Succeeded"] },
-          "type": "OpenApiConnection",
-          "inputs": {
-            "host": {
-              "connectionName": "shared_commondataserviceforapps",
-              "operationId": "CreateRecord",
-              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
-            },
-            "parameters": {
-              "entityName": "dd_teamsticketdiscussionstates",
-              "item/dd_teamsmessageid": "@outputs('Post_message_in_a_chat_or_channel')?['body/id']",
-              "item/dd_ticketid": "@triggerOutputs()?['body/ticket/id']"
-            },
-            "authentication": "@parameters('$authentication')"
-          }
-        },
         "Ticket_Hyperlink": {
           "runAfter": { "DeskDirector_Domain": ["Succeeded"] },
+          "metadata": {
+            "operationMetadataId": "c9e0fabf-d00b-4c09-95cb-4f342cb271cf"
+          },
           "type": "Compose",
           "inputs": "<a href=\"https://@{body('DeskDirector_Domain')?['domain']}/tech/tickets/@{triggerOutputs()?['body/ticket/id']}/details\">View in Tech</a>"
         },
         "Update_a_ticket": {
-          "runAfter": { "Add_a_new_row": ["Succeeded"] },
+          "runAfter": { "Add_or_update_row": ["Succeeded"] },
+          "metadata": {
+            "operationMetadataId": "c2eeb366-3e38-4f76-a628-2344ef78fb55"
+          },
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
@@ -125,6 +125,9 @@
           "actions": {
             "List_Config": {
               "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "f49b4e3e-fe6d-4f5e-b42f-e53525b2370e"
+              },
               "type": "OpenApiConnection",
               "inputs": {
                 "host": {
@@ -144,6 +147,9 @@
               "actions": {
                 "Parse_Config": {
                   "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "f8b6a009-01eb-48ef-8475-9a86b9da811c"
+                  },
                   "type": "ParseJson",
                   "inputs": {
                     "content": {
@@ -171,6 +177,9 @@
                 "actions": {
                   "Terminate_-_Conflicting_Config": {
                     "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "fb3fc2e2-a252-4500-af14-83b14038a1f7"
+                    },
                     "type": "Terminate",
                     "inputs": { "runStatus": "Cancelled" }
                   }
@@ -179,11 +188,94 @@
               "expression": {
                 "equals": ["@length(outputs('List_Config')?['body/value'])", 1]
               },
+              "metadata": {
+                "operationMetadataId": "7ddc5078-af0f-4d3c-9877-a1a10e000535"
+              },
               "type": "If"
             }
           },
           "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "53d38b50-49bf-4816-ba96-2a10c1339657"
+          },
           "type": "Scope"
+        },
+        "List_rows": {
+          "runAfter": { "Post_message_in_a_chat_or_channel": ["Succeeded"] },
+          "metadata": {
+            "operationMetadataId": "350df07c-e8ff-420f-9e99-ce304b8856aa"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "dd_teamsticketdiscussionstates",
+              "$select": "dd_teamsticketdiscussionstateid, dd_ticketid, dd_teamsmessageid",
+              "$filter": "dd_ticketid eq '@{triggerOutputs()?['body/ticket/id']}'"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Add_or_update_row": {
+          "actions": {
+            "Add_a_new_row": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "64d09613-4115-4e09-9b8a-003eab7e93ea"
+              },
+              "type": "OpenApiConnection",
+              "inputs": {
+                "host": {
+                  "connectionName": "shared_commondataserviceforapps",
+                  "operationId": "CreateRecord",
+                  "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                },
+                "parameters": {
+                  "entityName": "dd_teamsticketdiscussionstates",
+                  "item/dd_teamsmessageid": "@outputs('Post_message_in_a_chat_or_channel')?['body/id']",
+                  "item/dd_ticketid": "@triggerOutputs()?['body/ticket/id']"
+                },
+                "authentication": "@parameters('$authentication')"
+              }
+            }
+          },
+          "runAfter": { "List_rows": ["Succeeded"] },
+          "else": {
+            "actions": {
+              "Update_a_row": {
+                "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "6f74e35c-7fb2-41d4-8f3f-67d9fd43b4a3"
+                },
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_commondataserviceforapps",
+                    "operationId": "UpdateRecord",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                  },
+                  "parameters": {
+                    "entityName": "dd_teamsticketdiscussionstates",
+                    "recordId": "@ outputs('List_rows')?['body/value'][0]?['dd_teamsticketdiscussionstateid']",
+                    "item/dd_teamsmessageid": "@outputs('Post_message_in_a_chat_or_channel')?['body/id']"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                },
+                "description": "Update the row with new teams thread id"
+              }
+            }
+          },
+          "expression": {
+            "equals": ["@length(outputs('List_rows')?['body/value'])", 0]
+          },
+          "metadata": {
+            "operationMetadataId": "e6145e99-331b-46e7-9ba7-61a8c8e649b3"
+          },
+          "type": "If"
         }
       },
       "outputs": {}

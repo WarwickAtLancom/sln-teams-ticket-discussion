@@ -1,11 +1,11 @@
-<ImportExportXml version="9.2.21082.150" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ImportExportXml version="9.2.21101.144" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
     <UniqueName>dd_TeamsTicketDiscussion</UniqueName>
     <LocalizedNames>
       <LocalizedName description="Teams Ticket Discussion" languagecode="1033" />
     </LocalizedNames>
     <Descriptions />
-    <Version>0.0.0.2</Version>
+    <Version>0.0.0.3</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>DeskDirector</UniqueName>

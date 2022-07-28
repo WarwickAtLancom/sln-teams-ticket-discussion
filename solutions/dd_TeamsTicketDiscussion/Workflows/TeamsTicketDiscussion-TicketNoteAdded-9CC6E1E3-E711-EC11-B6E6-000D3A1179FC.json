@@ -32,6 +32,9 @@
       },
       "triggers": {
         "When_a_ticket_is_created_or_updated": {
+          "metadata": {
+            "operationMetadataId": "b9a06943-c7a0-45bc-8066-20b2b543b3c4"
+          },
           "type": "OpenApiConnectionWebhook",
           "inputs": {
             "host": {
@@ -50,6 +53,9 @@
       "actions": {
         "List_rows": {
           "runAfter": { "Get_Config": ["Succeeded"] },
+          "metadata": {
+            "operationMetadataId": "cbd43b0b-2e22-49d7-ba07-7bbd455666d5"
+          },
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
@@ -72,6 +78,9 @@
             "actions": {
               "Terminate": {
                 "runAfter": {},
+                "metadata": {
+                  "operationMetadataId": "864f4f32-0a0a-425b-b04b-0f33178946ce"
+                },
                 "type": "Terminate",
                 "inputs": { "runStatus": "Cancelled" }
               }
@@ -80,10 +89,16 @@
           "expression": {
             "equals": ["@length(outputs('List_rows')?['body/value'])", 1]
           },
+          "metadata": {
+            "operationMetadataId": "4b36933c-7669-4df7-b171-f30a27e67209"
+          },
           "type": "If"
         },
         "Reply_with_a_message_in_a_channel": {
           "runAfter": { "Only_one_ticket_state_entry": ["Succeeded"] },
+          "metadata": {
+            "operationMetadataId": "4cd20001-4ee2-45ef-9312-0b6e5762b806"
+          },
           "type": "OpenApiConnection",
           "inputs": {
             "host": {
@@ -110,6 +125,9 @@
           "actions": {
             "List_Config": {
               "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "324b997a-8956-4de4-996a-dd79d10ccc53"
+              },
               "type": "OpenApiConnection",
               "inputs": {
                 "host": {
@@ -129,6 +147,9 @@
               "actions": {
                 "Parse_Config": {
                   "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "5df6bf52-970d-41df-b2cd-e69b117390ef"
+                  },
                   "type": "ParseJson",
                   "inputs": {
                     "content": {
@@ -156,6 +177,9 @@
                 "actions": {
                   "Terminate_-_Conflicting_Config": {
                     "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "11955050-8827-417b-a7b8-e4d35b6ddb06"
+                    },
                     "type": "Terminate",
                     "inputs": { "runStatus": "Cancelled" }
                   }
@@ -164,10 +188,16 @@
               "expression": {
                 "equals": ["@length(outputs('List_Config')?['body/value'])", 1]
               },
+              "metadata": {
+                "operationMetadataId": "92ca3363-e0fb-48c4-8e65-0572bb3f08d9"
+              },
               "type": "If"
             }
           },
           "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "2c20a8f6-5345-44a2-b46c-5283fb580782"
+          },
           "type": "Scope"
         }
       },

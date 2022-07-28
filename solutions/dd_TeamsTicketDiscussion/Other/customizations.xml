@@ -2566,8 +2566,8 @@
         <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Ticket Note Added" />
       </LocalizedNames>
     </Workflow>
-    <Workflow WorkflowId="{dd4d1f82-e411-ec11-b6e6-000d3a117d4d}" Name="Teams Ticket Discussion - Ticket Created">
-      <JsonFileName>/Workflows/TeamsTicketDiscussion-TicketCreated-DD4D1F82-E411-EC11-B6E6-000D3A117D4D.json</JsonFileName>
+    <Workflow WorkflowId="{dd4d1f82-e411-ec11-b6e6-000d3a117d4d}" Name="Teams Ticket Discussion - Ticket Tagged">
+      <JsonFileName>/Workflows/TeamsTicketDiscussion-TicketTagged-DD4D1F82-E411-EC11-B6E6-000D3A117D4D.json</JsonFileName>
       <Type>1</Type>
       <Subprocess>0</Subprocess>
       <Category>5</Category>
@@ -2588,7 +2588,7 @@
       <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
       <PrimaryEntity>none</PrimaryEntity>
       <LocalizedNames>
-        <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Ticket Created" />
+        <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Ticket Tagged" />
       </LocalizedNames>
     </Workflow>
     <Workflow WorkflowId="{d0974575-e911-ec11-b6e6-000d3a117d4d}" Name="Teams Ticket Discussion - Time Entry Added">

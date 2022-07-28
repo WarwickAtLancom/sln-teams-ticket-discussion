@@ -25,6 +25,9 @@
       },
       "triggers": {
         "manual": {
+          "metadata": {
+            "operationMetadataId": "86c7fdd1-8df5-4fb2-9f66-25f03243c737"
+          },
           "type": "Request",
           "kind": "Button",
           "inputs": {
@@ -39,6 +42,9 @@
               "actions": {
                 "Add_a_new_row": {
                   "runAfter": {},
+                  "metadata": {
+                    "operationMetadataId": "1c42c6b1-88f8-4531-8525-41936c1d23f5"
+                  },
                   "type": "OpenApiConnection",
                   "inputs": {
                     "host": {
@@ -67,6 +73,9 @@
                 "actions": {
                   "Update_a_row": {
                     "runAfter": {},
+                    "metadata": {
+                      "operationMetadataId": "53b3817f-5c42-4121-a601-c5e9191a6a84"
+                    },
                     "type": "OpenApiConnection",
                     "inputs": {
                       "host": {
@@ -95,10 +104,16 @@
               "expression": {
                 "equals": ["@length(outputs('List_rows')?['body/value'])", 0]
               },
+              "metadata": {
+                "operationMetadataId": "3e61e5b5-7b26-48b1-b586-e200fe2455cd"
+              },
               "type": "If"
             },
             "Parse_Config": {
               "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "c18de1d1-f599-45b6-a4cb-3642a16e7e2b"
+              },
               "type": "ParseJson",
               "inputs": {
                 "content": {
@@ -120,6 +135,9 @@
             },
             "List_rows": {
               "runAfter": { "Parse_Config": ["Succeeded"] },
+              "metadata": {
+                "operationMetadataId": "dfe28599-0a74-4d63-ab05-6687a3bc80c7"
+              },
               "type": "OpenApiConnection",
               "inputs": {
                 "host": {
@@ -139,18 +157,27 @@
             }
           },
           "runAfter": { "Things_for_you_to_configure": ["Succeeded"] },
+          "metadata": {
+            "operationMetadataId": "342f6bbe-6f20-4d34-bbf1-0c2472450dca"
+          },
           "type": "Scope"
         },
         "Things_for_you_to_configure": {
           "actions": {
             "DeskDirector_Domain": {
               "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "9340fdbb-e2b4-452b-a945-c5d90cbd9f66"
+              },
               "type": "Compose",
               "inputs": "subdomain.deskdirector.com",
               "description": "subdomain.deskdirector.com"
             },
             "Post_message_in_a_chat_or_channel": {
               "runAfter": { "DeskDirector_Domain": ["Succeeded"] },
+              "metadata": {
+                "operationMetadataId": "c426d23a-30f9-4b38-bdbb-2403c5fa3e3b"
+              },
               "type": "OpenApiConnection",
               "inputs": {
                 "host": {
@@ -174,6 +201,9 @@
             }
           },
           "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "142e6e1c-9d66-4344-8e6f-9a2b21a34e83"
+          },
           "type": "Scope",
           "description": "Configure these actions to get up and running"
         }
