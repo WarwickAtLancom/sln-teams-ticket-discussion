@@ -39,7 +39,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -78,7 +79,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>1</IsFilterable>
               <IsRetrievable>1</IsRetrievable>
@@ -118,7 +120,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -157,7 +160,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>1</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -197,7 +201,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>1</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>1</IsRetrievable>
@@ -237,7 +242,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -277,7 +283,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -317,7 +324,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -357,7 +365,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -397,7 +406,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -437,7 +447,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>1</IsFilterable>
               <IsRetrievable>1</IsRetrievable>
@@ -474,12 +485,14 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
               <IsLocalizable>0</IsLocalizable>
-              <Format></Format>
+              <Format>
+              </Format>
               <MinValue>-2147483648</MinValue>
               <MaxValue>2147483647</MaxValue>
               <displaynames>
@@ -514,7 +527,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -553,7 +567,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>1</IsFilterable>
               <IsRetrievable>1</IsRetrievable>
@@ -593,7 +608,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -631,7 +647,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -669,7 +686,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -709,7 +727,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>1</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -769,7 +788,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -828,12 +848,14 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
               <IsLocalizable>0</IsLocalizable>
-              <Format></Format>
+              <Format>
+              </Format>
               <MinValue>-1</MinValue>
               <MaxValue>2147483647</MaxValue>
               <displaynames>
@@ -867,12 +889,14 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
               <IsLocalizable>0</IsLocalizable>
-              <Format></Format>
+              <Format>
+              </Format>
               <MinValue>-1</MinValue>
               <MaxValue>2147483647</MaxValue>
               <displaynames>
@@ -913,7 +937,8 @@
           <IsReadOnlyInMobileClient>0</IsReadOnlyInMobileClient>
           <IsOfflineInMobileClient>0</IsOfflineInMobileClient>
           <DaysSinceRecordLastModified>0</DaysSinceRecordLastModified>
-          <MobileOfflineFilters></MobileOfflineFilters>
+          <MobileOfflineFilters>
+          </MobileOfflineFilters>
           <IsMapiGridEnabled>1</IsMapiGridEnabled>
           <IsReadingPaneEnabled>1</IsReadingPaneEnabled>
           <IsQuickCreateEnabled>0</IsQuickCreateEnabled>
@@ -1378,7 +1403,8 @@
       <RibbonDiffXml>
         <CustomActions />
         <Templates>
-          <RibbonTemplates Id="Mscrm.Templates"></RibbonTemplates>
+          <RibbonTemplates Id="Mscrm.Templates">
+          </RibbonTemplates>
         </Templates>
         <CommandDefinitions />
         <RuleDefinitions>
@@ -1428,7 +1454,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -1467,7 +1494,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>1</IsFilterable>
               <IsRetrievable>1</IsRetrievable>
@@ -1507,7 +1535,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -1546,7 +1575,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -1586,7 +1616,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>1</IsFilterable>
               <IsRetrievable>1</IsRetrievable>
@@ -1623,7 +1654,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>1</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>1</IsRetrievable>
@@ -1663,12 +1695,14 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
               <IsLocalizable>0</IsLocalizable>
-              <Format></Format>
+              <Format>
+              </Format>
               <MinValue>-2147483648</MinValue>
               <MaxValue>2147483647</MaxValue>
               <displaynames>
@@ -1703,7 +1737,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -1742,7 +1777,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>1</IsFilterable>
               <IsRetrievable>1</IsRetrievable>
@@ -1782,7 +1818,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -1820,7 +1857,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -1858,7 +1896,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -1898,7 +1937,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>1</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -1958,7 +1998,8 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
@@ -2017,12 +2058,14 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
               <IsLocalizable>0</IsLocalizable>
-              <Format></Format>
+              <Format>
+              </Format>
               <MinValue>-1</MinValue>
               <MaxValue>2147483647</MaxValue>
               <displaynames>
@@ -2056,12 +2099,14 @@
               <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
               <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
               <IsDataSourceSecret>0</IsDataSourceSecret>
-              <AutoNumberFormat></AutoNumberFormat>
+              <AutoNumberFormat>
+              </AutoNumberFormat>
               <IsSearchable>0</IsSearchable>
               <IsFilterable>0</IsFilterable>
               <IsRetrievable>0</IsRetrievable>
               <IsLocalizable>0</IsLocalizable>
-              <Format></Format>
+              <Format>
+              </Format>
               <MinValue>-1</MinValue>
               <MaxValue>2147483647</MaxValue>
               <displaynames>
@@ -2102,7 +2147,8 @@
           <IsReadOnlyInMobileClient>0</IsReadOnlyInMobileClient>
           <IsOfflineInMobileClient>0</IsOfflineInMobileClient>
           <DaysSinceRecordLastModified>0</DaysSinceRecordLastModified>
-          <MobileOfflineFilters></MobileOfflineFilters>
+          <MobileOfflineFilters>
+          </MobileOfflineFilters>
           <IsMapiGridEnabled>1</IsMapiGridEnabled>
           <IsReadingPaneEnabled>1</IsReadingPaneEnabled>
           <IsQuickCreateEnabled>0</IsQuickCreateEnabled>
@@ -2567,7 +2613,8 @@
       <RibbonDiffXml>
         <CustomActions />
         <Templates>
-          <RibbonTemplates Id="Mscrm.Templates"></RibbonTemplates>
+          <RibbonTemplates Id="Mscrm.Templates">
+          </RibbonTemplates>
         </Templates>
         <CommandDefinitions />
         <RuleDefinitions>
@@ -2579,9 +2626,10 @@
       </RibbonDiffXml>
     </Entity>
   </Entities>
-  <Roles></Roles>
+  <Roles>
+  </Roles>
   <Workflows>
-    <Workflow WorkflowId="{9cc6e1e3-e711-ec11-b6e6-000d3a1179fc}" Name="Teams Ticket Discussion - Ticket Note Added">
+    <Workflow WorkflowId="{537cc768-73dc-4263-a6ba-ecd96d1203bc}" Name="Teams Ticket Discussion - Ticket Note Added (sln_teams_ticket_discussionv2)">
       <JsonFileName>/Workflows/TeamsTicketDiscussion-TicketNoteAdded-9CC6E1E3-E711-EC11-B6E6-000D3A1179FC.json</JsonFileName>
       <Type>1</Type>
       <Subprocess>0</Subprocess>
@@ -2603,10 +2651,10 @@
       <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
       <PrimaryEntity>none</PrimaryEntity>
       <LocalizedNames>
-        <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Ticket Note Added" />
+        <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Ticket Note Added (sln_teams_ticket_discussionv2)" />
       </LocalizedNames>
     </Workflow>
-    <Workflow WorkflowId="{dd4d1f82-e411-ec11-b6e6-000d3a117d4d}" Name="Teams Ticket Discussion - Ticket Tagged">
+    <Workflow WorkflowId="{952f9f9a-a0e3-42cc-bb56-a0b90eefa9b4}" Name="Teams Ticket Discussion - Ticket Tagged (sln_teams_ticket_discussionv2)">
       <JsonFileName>/Workflows/TeamsTicketDiscussion-TicketTagged-DD4D1F82-E411-EC11-B6E6-000D3A117D4D.json</JsonFileName>
       <Type>1</Type>
       <Subprocess>0</Subprocess>
@@ -2628,10 +2676,10 @@
       <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
       <PrimaryEntity>none</PrimaryEntity>
       <LocalizedNames>
-        <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Ticket Tagged" />
+        <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Ticket Tagged (sln_teams_ticket_discussionv2)" />
       </LocalizedNames>
     </Workflow>
-    <Workflow WorkflowId="{d0974575-e911-ec11-b6e6-000d3a117d4d}" Name="Teams Ticket Discussion - Time Entry Added">
+    <Workflow WorkflowId="{4853b8f7-0538-4692-8271-fd992a2137e0}" Name="Teams Ticket Discussion - Time Entry Added (sln_teams_ticket_discussionv2)">
       <JsonFileName>/Workflows/TeamsTicketDiscussion-TimeEntryAdded-D0974575-E911-EC11-B6E6-000D3A117D4D.json</JsonFileName>
       <Type>1</Type>
       <Subprocess>0</Subprocess>
@@ -2653,10 +2701,10 @@
       <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
       <PrimaryEntity>none</PrimaryEntity>
       <LocalizedNames>
-        <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Time Entry Added" />
+        <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Time Entry Added (sln_teams_ticket_discussionv2)" />
       </LocalizedNames>
     </Workflow>
-    <Workflow WorkflowId="{3720ef04-3514-ec11-b6e6-000d3a1e2bee}" Name="Teams Ticket Discussion - Config">
+    <Workflow WorkflowId="{e2eec587-374c-463d-a383-962cf1e7f2a8}" Name="Teams Ticket Discussion - Config (sln_teams_ticket_discussionv2)">
       <JsonFileName>/Workflows/TeamsTicketDiscussion-Config-3720EF04-3514-EC11-B6E6-000D3A1E2BEE.json</JsonFileName>
       <Type>1</Type>
       <Subprocess>0</Subprocess>
@@ -2678,11 +2726,12 @@
       <IsCustomProcessingStepAllowedForOtherPublishers>1</IsCustomProcessingStepAllowedForOtherPublishers>
       <PrimaryEntity>none</PrimaryEntity>
       <LocalizedNames>
-        <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Config" />
+        <LocalizedName languagecode="1033" description="Teams Ticket Discussion - Config (sln_teams_ticket_discussionv2)" />
       </LocalizedNames>
     </Workflow>
   </Workflows>
-  <FieldSecurityProfiles></FieldSecurityProfiles>
+  <FieldSecurityProfiles>
+  </FieldSecurityProfiles>
   <Templates />
   <EntityMaps />
   <EntityRelationships>
